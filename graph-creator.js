@@ -3,7 +3,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
   // TODO add user settings
   var consts = {
-    defaultTitle: "random variable"
+    defaultTitle: "shift+click to edit info"
   };
   var settings = {
     appendElSpec: "#graph"
@@ -415,6 +415,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
           /**
            * handle save method
           */
+          
           $('#btn_submit').unbind('click').click(function () {
             //console.log('inner id' + d.id);
             let title = $('input[name="txt_node_id"]').val();
@@ -430,6 +431,12 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             d3node.selectAll("text").remove();
             fuckingoff(d, d3node,thisGraph)
           });
+          //add enter key event
+          $("#txt_statu").keypress(function(e) {
+            if(e.which == 13) {
+              $("#btn_submit").click();
+            }
+          })
 
         } else {
           if (state.selectedEdge) { 
@@ -499,6 +506,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
       //     txtNode = d3txt.node();
       // thisGraph.selectElementContents(txtNode);
       // txtNode.focus();
+
+
       
     } else if (state.shiftNodeDrag) {
       // dragged from node
