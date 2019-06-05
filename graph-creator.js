@@ -125,7 +125,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     d3.select("#download-input").on("click", function () {
       var saveEdges = [];
       thisGraph.edges.forEach(function (val, i) {
-        saveEdges.push({ source: val.source.id, target: val.target.id });
+        saveEdges.push({ source: val.source.id, target: val.target.id, func: val.func });
       });
       var blob = new Blob([window.JSON.stringify({ "nodes": thisGraph.nodes, "edges": saveEdges })], { type: "text/plain;charset=utf-8" });
       saveAs(blob, "mydag.json");
@@ -153,7 +153,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             newEdges.forEach(function (e, i) {
               newEdges[i] = {
                 source: thisGraph.nodes.filter(function (n) { return n.id == e.source; })[0],
-                target: thisGraph.nodes.filter(function (n) { return n.id == e.target; })[0]
+                target: thisGraph.nodes.filter(function (n) { return n.id == e.target; })[0],
+                func: e.func
               };
             });
             thisGraph.edges = newEdges;
@@ -307,6 +308,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
          * handle save method
         */
         $('#edge_func').val(d.func);
+        $('#edge_func').focus();
         $('#edge_submit').unbind('click').click(function () {
           let func = $('input[name="edge_func"]').val();
           d.func = func;
@@ -413,6 +415,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         /**
          * handle save method
         */
+       $('#edge_func').val(d.func);
+       $('#edge_func').focus();
         $('#edge_submit').unbind('click').click(function () {
           let func = $('input[name="edge_func"]').val();
           newEdge.func = func;
